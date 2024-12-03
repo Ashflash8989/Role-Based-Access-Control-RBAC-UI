@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+import UserManagement from "./components/UserManagement";
+import RoleManagement from "./components/RoleManagement";
+import PermissionManagement from "./components/PermissionsManagement";
 
-function App() {
+const App = () => {
+  const [activeSection, setActiveSection] = useState("users");
+
+  const renderSection = () => {
+    switch (activeSection) {
+      case "users":
+        return <UserManagement />;
+      case "roles":
+        return <RoleManagement />;
+      case "permissions":
+        return <PermissionManagement />;
+      default:
+        return <UserManagement />;
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex">
+      <Sidebar onSelect={setActiveSection} />
+      <div className="flex-1">
+        <Navbar />
+        <main className="p-4">{renderSection()}</main>
+      </div>
     </div>
   );
-}
+};
 
 export default App;
